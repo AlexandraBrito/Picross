@@ -1,0 +1,11 @@
+<div class="canvas disable-text-selection">
+    <div *ngFor="let n of pixels" class="pixel">
+        <div *ngIf="!n.value" class="pixel white" (click)="onClick(n)" (mouseover)="onOver(n)"
+            (mousedown)="onMouseDown(n)" (mouseup)="onMouseUp()"></div>
+        <div *ngIf="n.value" class="pixel black" (click)="onClick(n)" (mouseover)="onOver(n)"
+            (mousedown)="onMouseDown(n)" (mouseup)="onMouseUp()"> </div>
+    </div>
+
+</div>
+
+<button (click)="calculateAll()">Click me!</button>
