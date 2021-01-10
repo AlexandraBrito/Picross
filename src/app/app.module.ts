@@ -4,13 +4,11 @@ import { CommonModule } from '@angular/common';
 
 import { AppComponent } from './app.component';
 import { CanvaComponent } from './canva/canva.component';
-import { DrawComponent } from './draw/draw.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CanvaComponent,
-    DrawComponent
   ],
   imports: [
     BrowserModule,

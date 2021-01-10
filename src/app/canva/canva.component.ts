@@ -11,7 +11,7 @@ export class CanvaComponent implements OnInit {
   constructor() {
   }
   width: number = 50;
-  height: number = 50;
+  height: number = 30;
   pixels: Array<{ id: number, value: boolean }> = [];
   changeTo: boolean = true;
   longPress = false;
@@ -33,6 +33,7 @@ export class CanvaComponent implements OnInit {
 
   public onMouseUp() {
     this.longPress = false;
+    // this.calculateAll();
   }
 
   public onClick(n: { id: number, value: boolean }) {
@@ -61,9 +62,9 @@ export class CanvaComponent implements OnInit {
     this.horizontalNumbers = new Array();
     var numberLine = new Array()
 
-    for (var h = 0; h < this.height; h++) {
-      for (var w = 0; w < this.width; w++) {
-        var i = h + w * this.width;
+    for (var w = 0; w < this.width; w++) {
+      for (var h = 0; h < this.height; h++) {
+        var i = w + h * this.width;
         if (this.pixels[i].value)
           counter++;
         else if (counter != 0) {
@@ -99,9 +100,14 @@ export class CanvaComponent implements OnInit {
       }
     });
 
+    if (counter != 0)
+      numberLine.push(counter);
+    if (numberLine.some(x => x != 0))
+      this.verticalNumbers.push(numberLine);
+    counter = 0
+    numberLine = new Array();
     console.log("->   ", this.horizontalNumbers);
     console.log("|   ", this.verticalNumbers);
-
   }
 
 }
