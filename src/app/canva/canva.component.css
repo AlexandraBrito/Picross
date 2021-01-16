@@ -1,14 +1,7 @@
-body {
-  background: #333;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .canvas {
   width: calc(18px*50);
   height: calc(18px*30);
+  float: left;
 }
 
 .pixel {
@@ -33,4 +26,11 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.wrapper {
+  border: 1px solid red;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }

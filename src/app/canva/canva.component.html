@@ -1,11 +1,17 @@
-<div id="contentToConvert" class="canvas disable-text-selection">
-    <div *ngFor="let n of pixels" class="pixel">
-        <div *ngIf="!n.value" class="pixel white" (click)="onClick(n)" (mouseover)="onOver(n)"
-            (mousedown)="onMouseDown(n)" (mouseup)="onMouseUp()"></div>
-        <div *ngIf="n.value" class="pixel black" (click)="onClick(n)" (mouseover)="onOver(n)"
-            (mousedown)="onMouseDown(n)" (mouseup)="onMouseUp()"> </div>
+<div class="wrapper">
+    <div id="contentToConvert" class="canvas disable-text-selection" style="background-color: coral; margin: 10px;">
+        <div *ngFor="let n of pixels" class="pixel">
+            <div *ngIf="!n.value" class="pixel white" (click)="onClick(n)" (mouseover)="onOver(n)"
+                (mousedown)="onMouseDown(n)" (mouseup)="onMouseUp()"></div>
+            <div *ngIf="n.value" class="pixel black" (click)="onClick(n)" (mouseover)="onOver(n)"
+                (mousedown)="onMouseDown(n)" (mouseup)="onMouseUp()"> </div>
+        </div>
     </div>
-
+    <div style="background-color: cyan; 
+    float: left; ">
+        <button (click)="calculateAll()">Calculate</button>
+        <div>
+            <input type="button" value="Save" (click)="captureScreen()" />
+        </div>
+    </div>
 </div>
-
-<button (click)="calculateAll()">Click me!</button>
