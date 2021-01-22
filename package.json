@@ -1,5 +1,6 @@
 {
   "name": "picross",
+  "homepage": "https://alexandrabrito.github.io/picross/",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",

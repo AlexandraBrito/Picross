@@ -1,15 +1,8 @@
 <div class="wrapper">
-    <div id="contentToConvert" class="canvas disable-text-selection" style="background-color: coral; margin: 10px;">
-        <div *ngFor="let n of pixels" class="pixel">
-            <div *ngIf="!n.value" class="pixel white" (click)="onClick(n)" (mouseover)="onOver(n)"
-                (mousedown)="onMouseDown(n)" (mouseup)="onMouseUp()"></div>
-            <div *ngIf="n.value" class="pixel black" (click)="onClick(n)" (mouseover)="onOver(n)"
-                (mousedown)="onMouseDown(n)" (mouseup)="onMouseUp()"> </div>
-        </div>
-    </div>
+    <app-pic [pic]="pic" [paintable]="true"></app-pic>
     <div style="background-color: cyan; 
     float: left; ">
-        <button (click)="calculateAll()">Calculate</button>
+        <!-- <button (click)="calculateAll()">Calculate</button> -->
 
         <input type="button" value="Save" (click)="captureScreen()" />
 

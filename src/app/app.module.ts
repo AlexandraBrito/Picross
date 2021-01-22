@@ -7,12 +7,14 @@ import { CanvaComponent } from './canva/canva.component';
 import { PopupComponent } from './popup/popup.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { PicComponent } from './pic/pic.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CanvaComponent,
     PopupComponent,
+    PicComponent,
   ],
   imports: [
     BrowserModule,
