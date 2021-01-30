@@ -46,6 +46,9 @@ export class PicComponent implements OnInit {
     this
 
   }
+  public log(msg: string) {
+    console.log(msg);
+  }
 
   // public calculateAll() {
   //   var counter = 0;
