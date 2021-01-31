@@ -1,17 +1,9 @@
 <div id="contentToConvert" class="canvas disable-text-selection" style="background-color: coral; margin: 10px;">
-    <div *ngFor="let line of pic" class="pixel">
-        <div *ngFor="let pixel of line" class="pixel">
-            <div *ngIf="!pic[line][pixel]" class="pixel white" (click)="onClick(line, pixel)" (mouseover)="onOver(line, pixel)"
-                (mousedown)="onMouseDown(line, pixel)" (mouseup)="onMouseUp()"></div>
-            <div *ngIf="pic[line][pixel]" class="pixel black" (click)="onClick(n)" (mouseover)="onOver(n)"
-                (mousedown)="onMouseDown(n)" (mouseup)="onMouseUp()"> </div>
+    <div *ngFor="let line of pic; let l = index" class="pixel">
+        <div *ngFor="let pixel of line; let p = index" class="pixel">
+            <div *ngIf="pixel === false" class="pixel white" (click)="onClick(l, p)" (mouseover)="onOver(l, p)"
+                (mousedown)="onMouseDown(l, p)"></div>
+            <div *ngIf="pixel" class="pixel black" (click)="onClick(l, p)" (mouseover)="onOver(l, p)"
+                (mousedown)="onMouseDown(l, p)"> </div>
         </div>
-
-
-        <!-- <div *ngFor="let n of pixels" class="pixel">
-        <div *ngIf="!n.value" class="pixel white" (click)="onClick(n)" (mouseover)="onOver(n)"
-            (mousedown)="onMouseDown(n)" (mouseup)="onMouseUp()"></div>
-        <div *ngIf="n.value" class="pixel black" (click)="onClick(n)" (mouseover)="onOver(n)"
-            (mousedown)="onMouseDown(n)" (mouseup)="onMouseUp()"> </div>
-    </div> -->
     </div>

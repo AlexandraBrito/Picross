@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as jspdf from 'jspdf';
 import html2canvas from 'html2canvas';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-canva',
@@ -11,22 +12,16 @@ export class CanvaComponent implements OnInit {
 
   constructor() {
   }
-  width: number = 10;
-  height: number = 12;
-  pixels: Array<{ id: number, value: boolean }> = [];
-  pic;
+  width: number = 50;
+  height: number = 30;
+  verticalNumbers = new Array();
+  horizontalNumbers = new Array();
+  public pic = this.makeArray(this.height, this.width, false);
 
   ngOnInit(): void {
-    // for (var i = 0; i < this.width * this.height; i++) {
-    //   this.pixels.push({ id: i, value: false });
-    // }
-    this.pic = this.makeArray(this.width, this.height, false);
-
-    console.table(this.pic);
-
   }
 
-  public makeArray(w, h, val) {
+  public makeArray(w: number, h: number, val: any) {
     var arr = [];
     for (let i = 0; i < h; i++) {
       arr[i] = [];
@@ -54,6 +49,53 @@ export class CanvaComponent implements OnInit {
         pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
         pdf.save('MYPdf.pdf'); // Generated PDF   
       });
+  }
+
+  public calculateAll() {
+    this.horizontalNumbers = new Array();
+    this.verticalNumbers = new Array();
+
+    this.calcHorizontal();
+    this.calcVertical();
+
+    console.log("horixontal         " + this.horizontalNumbers);
+    console.log("hhgfdhvertical         " + this.verticalNumbers);
+  }
+
+  private calcVertical() {
+    var counter = 0;
+    for (var line of this.pic) {
+      for (var pixel of line) {
+        if (pixel)
+          counter++;
+        else if (counter != 0) {
+          this.verticalNumbers.push(counter);
+          counter = 0;
+        }
+      }
+      if (counter != 0) {
+        this.verticalNumbers.push(counter);
+        counter = 0;
+      }
+    }
+  }
+
+  private calcHorizontal() {
+    var counter = 0;
+    for (var i = 0; i < this.height; i++) {
+      for (var j = 0; j < this.width; j++) {
+        if (this.pic[j][i])
+          counter++;
+        else if (counter != 0) {
+          this.horizontalNumbers.push(counter);
+          counter = 0;
+        }
+      }
+      if (counter != 0) {
+        this.horizontalNumbers.push(counter);
+        counter = 0;
+      }
+    }
   }
 }
 
