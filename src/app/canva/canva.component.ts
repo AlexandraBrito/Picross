@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import * as jspdf from 'jspdf';
 import html2canvas from 'html2canvas';
-import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-canva',
   templateUrl: './canva.component.html',
   styleUrls: ['./canva.component.css']
 })
+
 export class CanvaComponent implements OnInit {
 
   constructor() {
@@ -49,53 +49,6 @@ export class CanvaComponent implements OnInit {
         pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
         pdf.save('MYPdf.pdf'); // Generated PDF   
       });
-  }
-
-  public calculateAll() {
-    this.horizontalNumbers = new Array();
-    this.verticalNumbers = new Array();
-
-    this.calcHorizontal();
-    this.calcVertical();
-
-    console.log("horixontal         " + this.horizontalNumbers);
-    console.log("hhgfdhvertical         " + this.verticalNumbers);
-  }
-
-  private calcVertical() {
-    var counter = 0;
-    for (var line of this.pic) {
-      for (var pixel of line) {
-        if (pixel)
-          counter++;
-        else if (counter != 0) {
-          this.verticalNumbers.push(counter);
-          counter = 0;
-        }
-      }
-      if (counter != 0) {
-        this.verticalNumbers.push(counter);
-        counter = 0;
-      }
-    }
-  }
-
-  private calcHorizontal() {
-    var counter = 0;
-    for (var i = 0; i < this.height; i++) {
-      for (var j = 0; j < this.width; j++) {
-        if (this.pic[j][i])
-          counter++;
-        else if (counter != 0) {
-          this.horizontalNumbers.push(counter);
-          counter = 0;
-        }
-      }
-      if (counter != 0) {
-        this.horizontalNumbers.push(counter);
-        counter = 0;
-      }
-    }
   }
 }
 

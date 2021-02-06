@@ -1,11 +1,12 @@
 <div class="wrapper">
-    <app-pic [pic]="pic" [paintable]="true"></app-pic>
+
+    <app-pic [pic]="pic" [paintable]="true" [showCalculations]="false"></app-pic>
+
     <div style="background-color: cyan; 
     float: left; ">
-        <button (click)="calculateAll()">Calculate</button>
 
-        <input type="button" value="Save" (click)="captureScreen()" />
+        <app-popup [pic]="pic" ></app-popup>
 
-        <app-popup>oi</app-popup>
     </div>
+
 </div>

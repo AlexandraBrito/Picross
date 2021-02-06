@@ -8,11 +8,12 @@ import { Component, HostListener, Input, OnInit } from '@angular/core';
 export class PicComponent implements OnInit {
   @Input() pic;
   @Input() paintable: Boolean;
+  @Input() showCalculations: Boolean;
+
+
   changeTo: boolean = true;
   longPress = false;
-  verticalNumbers = new Array();
-  horizontalNumbers = new Array();
-
+  
   constructor() { }
 
   ngOnInit(): void {
@@ -25,16 +26,21 @@ export class PicComponent implements OnInit {
 
   @HostListener('window:mouseup', ['$event'])
   mouseUp() {
-    this.longPress = false;
+    if (this.paintable) {
+      this.longPress = false;
+    }
   }
 
   public onClick(line: number, pixel: number) {
-    this.pic[line][pixel] = !this.pic[line][pixel];
-    console.table(this.pic);
+    if (this.paintable) {
+      this.pic[line][pixel] = !this.pic[line][pixel];
+      console.table(this.pic);
+    }
   }
 
   public onOver(line: number, pixel: number) {
-    if (this.longPress)
+    if (this.paintable && this.longPress)
       this.pic[line][pixel] = this.changeTo;
   }
+
 }
