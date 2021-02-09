@@ -16,7 +16,7 @@ export class CanvaComponent implements OnInit {
   height: number = 30;
   verticalNumbers = new Array();
   horizontalNumbers = new Array();
-  public pic = this.makeArray(this.height, this.width, false);
+  public pic: { isPainted: boolean, value: number }[][] = this.makeArray(this.height, this.width, false);
 
   ngOnInit(): void {
   }
@@ -26,7 +26,7 @@ export class CanvaComponent implements OnInit {
     for (let i = 0; i < h; i++) {
       arr[i] = [];
       for (let j = 0; j < w; j++) {
-        arr[i][j] = val;
+        arr[i][j] = { isPainted: val };
       }
     }
     return arr;
