@@ -13,10 +13,6 @@ export class PopupComponent implements OnInit {
   @Input() pic: { isPainted?: boolean, value?: number }[][];
   newPic: { isPainted?: boolean, value?: number }[][];
 
-  // calc: { vertical: number[][], horizontal: number[][] } = { vertical: [], horizontal: [] };
-
-
-
   constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -25,12 +21,88 @@ export class PopupComponent implements OnInit {
   public calculateAll() {
     var sizes = this.calcSize();
     this.newPic = this.crop(sizes);
-    // this.calc.horizontal = [];
-    // this.calc.vertical = [];
+    this.calc();
     this.calcHorizontal();
     this.calcVertical();
+
     this.openDialog();
-    // console.table(this.calc.horizontal);
+  }
+
+
+  private calc() {
+    var xNumbers: number[][] = [];
+    var xIndex = 0;
+    var yNumbers: number[][] = [];
+    var yIndex = 0;
+    yNumbers[0] = [];
+    xNumbers[0] = [];
+    xNumbers[0][0] = 0;
+    yNumbers[0][0] = 0;
+
+    for (var x = 0; x < this.newPic.length; x++) {
+      xNumbers[x] = [];
+      xIndex = 0;
+      yIndex = 0;
+      for (var y = 0; y < this.newPic[0].length; y++) {
+
+        if (this.newPic[x][y]?.isPainted) {
+          if (xNumbers[x][xIndex] == undefined)
+            xNumbers[x][xIndex] = 0;
+          if (yNumbers[yIndex][y] == undefined)
+            yNumbers[yIndex][y] = 0;
+
+          xNumbers[x][xIndex]++;
+          yNumbers[yIndex][y]++;
+        }
+        else {
+          xIndex++;
+          // yIndex++;
+          yNumbers[yIndex] = [];
+          if (xNumbers[x][xIndex] == undefined)
+            xNumbers[x][xIndex] = 0;
+
+        }
+      }
+    }
+  }
+
+
+  private calcHorizontal() {
+    var counter = 0;
+    var numbers: number[] = [];
+    var linesToAdd: { isPainted?: boolean, value?: number }[][] = [];
+
+    for (var line = 0; line < this.newPic[0].length; line++) {
+      for (var pixel = 0; pixel < this.newPic.length; pixel++) {
+        if (this.newPic[pixel][line]?.isPainted)
+          counter++;
+        else if (counter != 0) {
+          numbers.push(counter);
+          counter = 0;
+        }
+      }
+      if (counter != 0) {
+        numbers.push(counter);
+        counter = 0;
+      }
+      if (numbers.length > 0) {
+        linesToAdd[line] = [];
+        numbers.forEach(x => {
+          linesToAdd[line].unshift({ value: x })
+        });
+        numbers = [];
+      }
+
+    }
+    // remake
+    linesToAdd.reverse();
+    linesToAdd.forEach(line => {
+      this.newPic.unshift(line)
+    });
+    for (var pixel = 0; pixel < linesToAdd.length; pixel++) {
+      if (linesToAdd[pixel])
+        linesToAdd[pixel].forEach(x => this.newPic[line].unshift(x));
+    }
   }
 
   private calcVertical() {
@@ -55,8 +127,6 @@ export class PopupComponent implements OnInit {
         numbers = [];
       }
     }
-
-    //array all the same size
     var larger = 0;
     this.newPic.forEach(x => {
       if (x.length > larger)
@@ -67,59 +137,6 @@ export class PopupComponent implements OnInit {
         x.unshift({});
       }
     });
-  }
-
-  private calcHorizontal() {
-    var counter = 0;
-    var numbers: number[] = [];
-    var linesToAdd: { isPainted?: boolean, value?: number }[][] = [];
-
-
-    for (var line = 0; line < this.newPic[0].length; line++) {
-      for (var pixel = 0; pixel < this.newPic.length; pixel++) {
-        if (this.newPic[pixel][line]?.isPainted)
-          counter++;
-        else if (counter != 0) {
-          numbers.push(counter);
-          counter = 0;
-        }
-        // line += numbers.length;
-        // this.calc.horizontal.push(numbers);
-      }
-      if (counter != 0) {
-        numbers.push(counter);
-        counter = 0;
-      }
-      if (numbers.length > 0) {
-        linesToAdd[line] = [];
-        numbers.forEach(x => {
-          linesToAdd[line].unshift({ value: x })
-        });
-        numbers = [];
-      }
-
-    }
-    var index = 0;
-
-    linesToAdd.reverse();
-
-    linesToAdd.forEach(line => {
-
-
-      this.newPic.unshift(line)
-      // linesToAdd[line].forEach(x => this.newPic[line].unshift(x));
-      // index += line + linesToAdd[line].length;
-
-    });
-
-    // for (var line = 0; line < linesToAdd[0].length; line++) {
-    for (var pixel = 0; pixel < linesToAdd.length; pixel++) {
-      if (linesToAdd[pixel])
-        linesToAdd[pixel].forEach(x => this.newPic[line].unshift(x));
-
-
-    }
-
   }
 
   private calcSize() {

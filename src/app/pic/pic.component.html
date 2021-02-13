@@ -1,23 +1,7 @@
-<div id="contentToConvert" class="canvas disable-text-selection" style="background-color: coral; margin: 10px;">
-
-    <!-- <div *ngIf="calculations != undefined"> -->
-    <!-- <div *ngFor="let values of calculations.vertical" class="pixel">
-            <div *ngFor="let value of values" class="pixel">
-                <div class="pixel white"> {{value}} </div>
-            </div>
-        </div> -->
-    <!-- 
-        <div *ngFor="let values of calculations.horizontal" class="pixel">
-            <div class="pixel white"> {{values}} </div>
-             <div *ngFor="let value of values" class="pixel">
-                <div class="pixel white"> {{value}} </div>
-            </div> 
-        </div>
-    </div> -->
-
+<div id="contentToConvert" class="canvas disable-text-selection">
     <div *ngFor="let line of pic; let l = index" class="pixel">
         <div *ngFor="let pixel of line; let p = index" class="pixel">
-            <div *ngIf="pixel.isPainted == undefiened"class="pixel number">{{pixel.value}}</div>
+            <div *ngIf="pixel.isPainted == undefiened" class="pixel number">{{pixel.value}}</div>
             <div *ngIf="pixel.isPainted == false" class="pixel white" (click)="onClick(l, p)" (mouseover)="onOver(l, p)"
                 (mousedown)="onMouseDown(l, p)"></div>
 
