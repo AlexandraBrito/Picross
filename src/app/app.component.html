@@ -14,5 +14,9 @@
     <h2>Make your picross</h2>
 </div>
 
+<div class="wrapper">
 
-<app-canva></app-canva>
+    <canva [canva]="canva" [paintable]="true"></canva>
+    <popup [canva]="canva"></popup>
+
+</div>

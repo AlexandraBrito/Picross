@@ -2,7 +2,7 @@ import { Component, Inject, Input } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface DialogData {
-    pic: any;
+    canva: any;
     calc: any;
 }
 

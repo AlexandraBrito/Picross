@@ -4,14 +4,14 @@ import { PopupContent } from './content/popup-content.component';
 
 
 @Component({
-  selector: 'app-popup',
-  templateUrl: './popup.component.html',
-  styleUrls: ['./popup.component.css']
+  selector: 'popup',
+  templateUrl: './popup.component.html'
+
 })
 export class PopupComponent implements OnInit {
 
-  @Input() pic: { isPainted?: boolean, value?: number }[][];
-  newPic: { isPainted?: boolean, value?: number }[][];
+  @Input() canva: { isPainted?: boolean, value?: number }[][];
+  newCanva: { isPainted?: boolean, value?: number }[][];
 
   constructor(public dialog: MatDialog) { }
 
@@ -20,49 +20,46 @@ export class PopupComponent implements OnInit {
 
   public calculateAll() {
     var sizes = this.calcSize();
-    this.newPic = this.crop(sizes);
+    this.newCanva = this.crop(sizes);
     this.calc();
-    this.calcHorizontal();
-    this.calcVertical();
+    // this.calcHorizontal();
+    // this.calcVertical();
 
     this.openDialog();
   }
 
 
   private calc() {
-    var xNumbers: number[][] = [];
+    var xNumbers: { value: number }[][] = [];
     var xIndex = 0;
-    var yNumbers: number[][] = [];
+    var yNumbers: { value: number }[][] = [];
     var yIndex = 0;
     yNumbers[0] = [];
     xNumbers[0] = [];
-    xNumbers[0][0] = 0;
-    yNumbers[0][0] = 0;
+    xNumbers[0][0] = { value: 0 };
+    yNumbers[0][0] = { value: 0 };
 
-    for (var x = 0; x < this.newPic.length; x++) {
+    for (var x = 0; x < this.newCanva.length; x++) {
       xNumbers[x] = [];
       xIndex = 0;
-      yIndex = 0;
-      for (var y = 0; y < this.newPic[0].length; y++) {
+      for (var y = 0; y < this.newCanva[0].length; y++) {
 
-        if (this.newPic[x][y]?.isPainted) {
-          if (xNumbers[x][xIndex] == undefined)
-            xNumbers[x][xIndex] = 0;
-          if (yNumbers[yIndex][y] == undefined)
-            yNumbers[yIndex][y] = 0;
+        if (this.newCanva[x][y]?.isPainted) {
+          if (xNumbers[x][xIndex] == undefined) { xNumbers[x][xIndex] = { value: 0 }; }
+          xNumbers[x][xIndex].value++;
 
-          xNumbers[x][xIndex]++;
-          yNumbers[yIndex][y]++;
+          if (yNumbers[yIndex][y] == undefined) { yNumbers[yIndex][y] = { value: 0 }; }
+          yNumbers[yIndex][y].value++;
         }
         else {
           xIndex++;
-          // yIndex++;
-          yNumbers[yIndex] = [];
-          if (xNumbers[x][xIndex] == undefined)
-            xNumbers[x][xIndex] = 0;
-
         }
       }
+    }
+
+    for (var i = 0; i < this.newCanva.length; i++) {
+      xNumbers[i].reverse();
+      xNumbers[i].forEach(x => this.newCanva[i].unshift(x));
     }
   }
 
@@ -72,9 +69,9 @@ export class PopupComponent implements OnInit {
     var numbers: number[] = [];
     var linesToAdd: { isPainted?: boolean, value?: number }[][] = [];
 
-    for (var line = 0; line < this.newPic[0].length; line++) {
-      for (var pixel = 0; pixel < this.newPic.length; pixel++) {
-        if (this.newPic[pixel][line]?.isPainted)
+    for (var line = 0; line < this.newCanva[0].length; line++) {
+      for (var pixel = 0; pixel < this.newCanva.length; pixel++) {
+        if (this.newCanva[pixel][line]?.isPainted)
           counter++;
         else if (counter != 0) {
           numbers.push(counter);
@@ -94,21 +91,20 @@ export class PopupComponent implements OnInit {
       }
 
     }
-    // remake
     linesToAdd.reverse();
     linesToAdd.forEach(line => {
-      this.newPic.unshift(line)
+      this.newCanva.unshift(line)
     });
     for (var pixel = 0; pixel < linesToAdd.length; pixel++) {
       if (linesToAdd[pixel])
-        linesToAdd[pixel].forEach(x => this.newPic[line].unshift(x));
+        linesToAdd[pixel].forEach(x => this.newCanva[line].unshift(x));
     }
   }
 
   private calcVertical() {
     var counter = 0;
     var numbers: number[] = [];
-    for (var line of this.newPic) {
+    for (var line of this.newCanva) {
       for (var pixel of line) {
         if (pixel.isPainted)
           counter++;
@@ -128,11 +124,11 @@ export class PopupComponent implements OnInit {
       }
     }
     var larger = 0;
-    this.newPic.forEach(x => {
+    this.newCanva.forEach(x => {
       if (x.length > larger)
         larger = x.length;
     });
-    this.newPic.forEach(x => {
+    this.newCanva.forEach(x => {
       while (x.length != larger) {
         x.unshift({});
       }
@@ -140,13 +136,13 @@ export class PopupComponent implements OnInit {
   }
 
   private calcSize() {
-    var minY = this.pic.length;
-    var minX = this.pic[0].length;
+    var minY = this.canva.length;
+    var minX = this.canva[0].length;
     var maxY = 0;
     var maxX = 0;
-    for (var line = 0; line < this.pic.length; line++) {
-      for (var pixel = 0; pixel < this.pic[0].length; pixel++) {
-        if (this.pic[line][pixel]?.isPainted) {
+    for (var line = 0; line < this.canva.length; line++) {
+      for (var pixel = 0; pixel < this.canva[0].length; pixel++) {
+        if (this.canva[line][pixel]?.isPainted) {
           if (minY > pixel)
             minY = pixel;
           if (maxY < pixel)
@@ -162,11 +158,11 @@ export class PopupComponent implements OnInit {
   }
 
   private crop(sizes: any): { isPainted?: boolean, value?: number }[][] {
-    return this.pic.slice(sizes.minX, sizes.maxX + 1).map(i => i.slice(sizes.minY, sizes.maxY + 1))
+    return this.canva.slice(sizes.minX, sizes.maxX + 1).map(i => i.slice(sizes.minY, sizes.maxY + 1))
   }
 
   openDialog() {
-    this.dialog.open(PopupContent, { data: { pic: this.newPic } });
+    this.dialog.open(PopupContent, { data: { canva: this.newCanva } });
   }
 
 }

@@ -1,20 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CanvaComponent } from './canva.component';
 
-import { PicComponent } from './pic.component';
-
-describe('PicComponent', () => {
-  let component: PicComponent;
-  let fixture: ComponentFixture<PicComponent>;
+describe('CanvaComponent', () => {
+  let component: CanvaComponent;
+  let fixture: ComponentFixture<CanvaComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PicComponent]
+      declarations: [CanvaComponent]
     })
       .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PicComponent);
+    fixture = TestBed.createComponent(CanvaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
