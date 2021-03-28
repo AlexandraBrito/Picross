@@ -1,9 +1,10 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { CalculatedNumbers, Cell } from 'src/app/models';
 
 export interface DialogData {
-    canva: any;
-    calc: any;
+    canva: Cell[][];
+    calc: CalculatedNumbers[][];
 }
 
 
